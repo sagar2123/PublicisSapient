@@ -7,10 +7,6 @@ import {getDataFromLocalStorage} from "../Utility/utils";
 export const Container =  (props) => {
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        loadData();
-    }, [props.match.params.pageId]);
-
     const loadData = () => {
         axios.get(`https://hn.algolia.com/api/v1/search?page=${props.match.params.pageId || 1}`)
             .then(result => {
@@ -36,6 +32,12 @@ export const Container =  (props) => {
                 setData(currentData);
             })
     };
+    
+    useEffect(() => {
+        loadData();
+    }, [props.match.params.pageId]);
+
+    
 
     const updateElementAtParticularIndex = (index, currentIndexData) => {
         let updatedData = JSON.parse(JSON.stringify(data));
@@ -45,9 +47,9 @@ export const Container =  (props) => {
 
     const changePage = (operation) => {
         if(operation === "inc"){
-            props.history.push(`/page/${parseInt(props.match.params.pageId) + 1}`);
+            props.history.push(`/${parseInt(props.match.params.pageId) + 1}`);
         } else {
-            props.history.push(props.match.params.pageId <= 1 ? `/page/1` : `/page/${parseInt(props.match.params.pageId) - 1}`);
+            props.history.push(props.match.params.pageId <= 1 ? `/1` : `/${parseInt(props.match.params.pageId) - 1}`);
         }
     };
 
