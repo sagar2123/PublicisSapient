@@ -39,8 +39,11 @@ export const Table = ({data, headers, updateElementAtIndex, hideElement}) => {
                         <div onClick={() => {setCurrentDataInLocalStorage("inc", row, index)}} className={"triangle-up-icon cursor-pointer"}></div> : 
                         <div onClick={() => {setCurrentDataInLocalStorage("dec", row, index)}} className={"triangle-down-icon cursor-pointer"}></div>
                     }</td>
-                    <td className="text-small">{row.title || "-"} by {row.author || "-"} 
-                    <button className={"text-small float-right hide-button btn-transparent cursor-pointer"} onClick={() => {hideElement(index)}}>hide</button>
+                    <td className="text-small">
+                        {row.title || "-"} 
+                           <span className={"table-elements-non-highlighted"}> by </span> 
+                        {row.author || "-"} 
+                    <button className={"text-small float-right hide-button btn-transparent cursor-pointer table-elements-non-highlighted"} onClick={() => {hideElement(index)}}>hide</button>
                     </td>
                 </tr>
             );

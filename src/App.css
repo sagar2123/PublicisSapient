@@ -155,6 +155,11 @@ th {
   cursor: pointer;
 }
 
+.table-elements-non-highlighted{
+  font-size: .7rem;
+  color: grey;
+}
+
 @media only screen and (max-width: 750px) and (min-width: 300px){
   .container{
     width: 100%;

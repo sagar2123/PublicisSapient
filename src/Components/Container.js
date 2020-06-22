@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import {Table} from './Table';
-import {LineChart} from "./LineChart";
-import {getDataFromLocalStorage} from "../Utility/utils";
+import React, { useEffect, useState } from 'react';
+import { getPageData } from "../Service/apiFactory";
+import { getDataFromLocalStorage } from "../Utility/utils";
+import { LineChart } from "./LineChart";
+import { Table } from './Table';
 
 export const Container =  (props) => {
     const [data, setData] = useState([]);
@@ -15,30 +15,28 @@ export const Container =  (props) => {
         }
     }, [props.match.params.pageId]);
     
-    const loadData = () => {
-        axios.get(`https://hn.algolia.com/api/v1/search?page=${props.match.params.pageId || 1}`)
-            .then(result => {
-                const currentData = result.data.hits.map((currentObj) => {
-                    const currentDataInStorage = getDataFromLocalStorage(currentObj.objectID);
-                    const currentDataObj = {
-                        points: currentObj.points,
-                        title: currentObj.title,
-                        author: currentObj.author,
-                        objectID: currentObj.objectID,
-                        url: currentObj.url,
-                        num_comments: currentObj.num_comments,
-                        voted: false
-                    }
-                    return currentDataInStorage ? {
-                        ...currentDataObj,
-                        ...currentDataInStorage
-                    } : {
-                        ...currentDataObj
-                    }
-                });
-                setData(currentData);
-                setLoader(false);
-            })
+    const loadData = async () => {
+        const result = await getPageData(props.match.params.pageId);
+        const currentData = result.data.hits.map((currentObj) => {
+            const currentDataInStorage = getDataFromLocalStorage(currentObj.objectID);
+            const currentDataObj = {
+                points: currentObj.points,
+                title: currentObj.title,
+                author: currentObj.author,
+                objectID: currentObj.objectID,
+                url: currentObj.url,
+                num_comments: currentObj.num_comments,
+                voted: false
+            }
+            return currentDataInStorage ? {
+                ...currentDataObj,
+                ...currentDataInStorage
+            } : {
+                ...currentDataObj
+            }
+        });
+        setData(currentData);
+        setLoader(false);
     };
     
 

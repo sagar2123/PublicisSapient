@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Container /> renders without crashing and updates the state 1`] = `
+<div
+  className="container"
+>
+  <div>
+    Loading...
+  </div>
+</div>
+`;
