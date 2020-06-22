@@ -7,7 +7,6 @@ export const LineChart = ({data, xTitle, yTitle}) => {
             <Chart
                 height={'400px'}
                 chartType="LineChart"
-                loader={<div>Loading Chart</div>}
                 data={data}
                 options={{
                     hAxis: {

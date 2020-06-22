@@ -7,12 +7,18 @@ function App() {
   return (
     <BrowserRouter>
       <Route
-          path="/:pageId"
+          exact
+          path="/page/:pageId"
           render={(matchProps) =>
             <Container
               {...matchProps}
             />
           }
+        />
+        <Route
+          exact
+          path="/"
+          component={Container}
         />
     </BrowserRouter>
   );

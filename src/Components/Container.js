@@ -6,7 +6,15 @@ import {getDataFromLocalStorage} from "../Utility/utils";
 
 export const Container =  (props) => {
     const [data, setData] = useState([]);
-
+    const [loading, setLoader] = useState(true);
+    
+    useEffect(() => {
+        loadData();
+        if(!props.match.params.pageId){
+            props.history.push(`/page/1`);
+        }
+    }, [props.match.params.pageId]);
+    
     const loadData = () => {
         axios.get(`https://hn.algolia.com/api/v1/search?page=${props.match.params.pageId || 1}`)
             .then(result => {
@@ -19,8 +27,7 @@ export const Container =  (props) => {
                         objectID: currentObj.objectID,
                         url: currentObj.url,
                         num_comments: currentObj.num_comments,
-                        voted: false,
-                        hide: false
+                        voted: false
                     }
                     return currentDataInStorage ? {
                         ...currentDataObj,
@@ -30,13 +37,9 @@ export const Container =  (props) => {
                     }
                 });
                 setData(currentData);
+                setLoader(false);
             })
     };
-    
-    useEffect(() => {
-        loadData();
-    }, [props.match.params.pageId]);
-
     
 
     const updateElementAtParticularIndex = (index, currentIndexData) => {
@@ -47,9 +50,9 @@ export const Container =  (props) => {
 
     const changePage = (operation) => {
         if(operation === "inc"){
-            props.history.push(`/${parseInt(props.match.params.pageId) + 1}`);
+            props.history.push(`/page/${parseInt(props.match.params.pageId) + 1}`);
         } else {
-            props.history.push(props.match.params.pageId <= 1 ? `/1` : `/${parseInt(props.match.params.pageId) - 1}`);
+            props.history.push(props.match.params.pageId <= 1 ? `/page/1` : `/page/${parseInt(props.match.params.pageId) - 1}`);
         }
     };
 
@@ -68,15 +71,20 @@ export const Container =  (props) => {
 
     return (
         <div className="container">
-            <Table headers={["Comments", "Vote Count", "Up Vote", "News Details"]} updateElementAtIndex={updateElementAtParticularIndex} hideElement={hideElement} data={data}/>
-            <div className="page-controls background-primary">
-                <div className="app-primary-color">
-                    <button className="btn-transparent app-primary-color" onClick={() => {changePage("dec")}}>Previous</button>
-                     | 
-                    <button className="btn-transparent app-primary-color" onClick={() => {changePage("inc")}}>Next</button>
-                </div>
-            </div>
-            <LineChart data={data.length > 0 ? prepareLineChartData(data) : []} xTitle={"Id"} yTitle={"Votes"}/>
+            { !loading ? 
+                <>
+                    <Table headers={["Comments", "Vote Count", "Up Vote", "News Details"]} updateElementAtIndex={updateElementAtParticularIndex} hideElement={hideElement} data={data}/>
+                    <div className="page-controls background-primary">
+                        <div className="app-primary-color">
+                            <button className="btn-transparent app-primary-color cursor-pointer" onClick={() => {changePage("dec")}}>Previous</button>
+                            | 
+                            <button className="btn-transparent app-primary-color cursor-pointer" onClick={() => {changePage("inc")}}>Next</button>
+                        </div>
+                    </div>
+                     <LineChart data={data.length > 0 ? prepareLineChartData(data) : []} xTitle={"Id"} yTitle={"Votes"}/>
+                </> : 
+                <div>Loading...</div>
+            }
         </div>
     )
 }
