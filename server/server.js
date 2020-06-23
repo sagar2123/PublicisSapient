@@ -37,5 +37,5 @@ application.get('*', (req, res) => {
     res.send(html);
 });
 
-const port = 3004
-application.listen(port);
+const PORT = process.env.PORT || 3004;
+application.listen(PORT);
