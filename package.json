@@ -7,24 +7,28 @@
     "npm": "6.14.4"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "babel-polyfill": "^6.26.0",
     "enzyme-to-json": "^3.5.0",
     "jest-cli": "^26.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-charts": "^3.0.15",
+    "react-router-config": "^5.1.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --coverage -color",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start": "npm-run-all --parallel dev:*",
+    "dev:build-server": "webpack --config webpack.config.js --mode production",
+    "dev:build-client": "webpack --config webpack.config.client.js --mode production",
+    "dev:server": "nodemon --watch build --exec \"node dist/main.js\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -48,8 +52,15 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.4",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.6.0",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2"
+    "enzyme-adapter-react-16": "^1.15.2",
+    "node-sass": "^4.14.1",
+    "npm-run-all": "^4.1.5",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
+    "url-loader": "^4.1.0",
+    "webpack-cli": "^3.3.12"
   }
 }
