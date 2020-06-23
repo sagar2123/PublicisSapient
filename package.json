@@ -22,13 +22,12 @@
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "build": "react-scripts build",
     "test": "jest --coverage -color",
     "eject": "react-scripts eject",
-    "start": "npm-run-all --parallel dev:*",
+    "start": "nodemon  dist/main.js",
     "dev:build-server": "webpack --config webpack.config.js --mode production",
     "dev:build-client": "webpack --config webpack.config.client.js --mode production",
-    "dev:server": "nodemon --watch build --exec \"node dist/main.js\""
+    "heroku-postbuild": "npm-run-all --parallel dev:*"
   },
   "eslintConfig": {
     "extends": "react-app"
