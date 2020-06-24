@@ -8,6 +8,5 @@ ReactDOM.hydrate(
   <BrowserRouter>
     <App />
   </BrowserRouter> ,
-  // <div>Sagar</div>,
   document.getElementById('root')
 );

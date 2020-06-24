@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getPageData } from "../Service/apiFactory";
 import { getDataFromLocalStorage } from "../Utility/utils";
-import { LineChart } from "./LineChart";
-import { Table } from './Table';
+import { LineChart } from "../Components/LineChart";
+import { Table } from '../Components/Table';
 
-export const Container =  (props) => {
+export const HackerNews =  (props) => {
     const [data, setData] = useState([]);
+    const [loading, setLoader] = useState(true);
     
     useEffect(() => {
         loadData();
@@ -14,7 +15,6 @@ export const Container =  (props) => {
         }
     }, [props.match.params.pageId]);
     
-    console.log("client params", props.match)
     const loadData = async () => {
         const result = await getPageData(props.match.params.pageId);
         const currentData = result.data.hits.map((currentObj) => {
@@ -36,6 +36,7 @@ export const Container =  (props) => {
             }
         });
         setData(currentData);
+        setLoader(false);
     };
     
 
@@ -68,6 +69,7 @@ export const Container =  (props) => {
 
     return (
         <div className="container">
+        { !loading ? 
             <>
                 <Table headers={["Comments", "Vote Count", "Up Vote", "News Details"]} updateElementAtIndex={updateElementAtParticularIndex} hideElement={hideElement} data={data}/>
                 <div className="page-controls background-primary">
@@ -78,7 +80,9 @@ export const Container =  (props) => {
                     </div>
                 </div>
                 <LineChart data={data.length > 0 ? prepareLineChartData(data) : []} xTitle={"Id"} yTitle={"Votes"}/>
-            </> 
+            </> : 
+                <div>Loading...</div>
+            }
         </div>
     )
 }

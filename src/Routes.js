@@ -1,15 +1,16 @@
 import React from "react";
-import {Container} from "./Components/Container";
+import {HackerNews, loadData} from "./Containers/HackerNews";
 
 export default [
     {
         path: "/",
-        component: Container,
+        component: HackerNews,
         exact: true
     },
     {
+        loadData: loadData,
         path: "/page/:pageId",
-        render: (matchProps) =>  <Container {...matchProps} />,
+        render: (matchProps) =>  <HackerNews {...matchProps} />,
         exact: true
     }
 ]

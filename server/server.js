@@ -2,8 +2,8 @@ import express from "express";
 import "babel-polyfill";
 import React from "react";
 import  {renderToString} from "react-dom/server";
-import {StaticRouter} from "react-router-dom";
-import { renderRoutes } from "react-router-config";
+import {StaticRouter, Route} from "react-router-dom";
+import { renderRoutes, matchRoutes } from "react-router-config";
 import Routes from "../src/Routes";
 
 const application = express();
@@ -14,7 +14,6 @@ application.get('*', (req, res) => {
     console.log("path", req.path);
     console.log("url", req.url);
     const content = renderToString( 
-        // <div>sagar</div>
         <StaticRouter location={req.path} context={{}}>
             <div>{renderRoutes(Routes)}</div>
         </StaticRouter>
@@ -34,6 +33,11 @@ application.get('*', (req, res) => {
         </html>
     `;
     console.log("html", html);
+
+    matchRoutes(Routes, req.path).map(({route}) => {
+        return route.loadData ? route.loadData : null;
+    });
+    
     res.send(html);
 });
 
