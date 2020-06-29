@@ -1,21 +1,29 @@
 import React from "react";
 import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
-import  HackerNews  from "../../src/Containers/HackerNews";
+import  { Table }  from "../../src/Components/Table";
 
 const defaultProps = {
-    match: {
-        params: {
-            pageId: 1
-        }
-    }
+	data: [{
+		points: 123,
+		title: "news data 1",
+		author: "random",
+		objectID: 1234,
+		url: "ab.com",
+		num_comments: 123,
+		voted: false
+
+	}],
+	headers: ["header1", "header2"],
+	updateElementAtIndex: () => {},
+	hideElement: () => {}
 }
 
 describe("<HackerNews />", () => {
 	let wrapper;
 	beforeEach(() => {
 		wrapper = shallow(
-			<HackerNews {...defaultProps}/>
+			<Table {...defaultProps}/>
 		);
 	});
 
