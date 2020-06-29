@@ -30,7 +30,7 @@ module.exports = {
 	plugins: [
 		new CopyPlugin({
 		  patterns: [
-			{ from: 'src/app.css', to: 'assets' },
+			{ from: 'src/App.css', to: 'assets' },
 		  ],
 		}),
 	  ],
