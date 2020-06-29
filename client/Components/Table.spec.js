@@ -19,7 +19,7 @@ const defaultProps = {
 	hideElement: () => {}
 }
 
-describe("<HackerNews />", () => {
+describe("<Table />", () => {
 	let wrapper;
 	beforeEach(() => {
 		wrapper = shallow(
