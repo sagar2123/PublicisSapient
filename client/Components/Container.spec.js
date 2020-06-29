@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
-import { HackerNews } from "../../src/Containers/HackerNews";
+import  HackerNews  from "../../src/Containers/HackerNews";
 
 const defaultProps = {
     match: {

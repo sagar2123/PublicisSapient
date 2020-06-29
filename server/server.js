@@ -1,44 +1,30 @@
-import express from "express";
 import "babel-polyfill";
-import React from "react";
-import  {renderToString} from "react-dom/server";
-import {StaticRouter, Route} from "react-router-dom";
-import { renderRoutes, matchRoutes } from "react-router-config";
+import express from "express";
+import { matchRoutes } from "react-router-config";
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
+import reducers from "../src/reducers";
 import Routes from "../src/Routes";
+import { renderer } from "./renderer";
 
 const application = express();
 
 application.use(express.static('public'));
 
+application.get('/', (req, res) => {
+    res.redirect('/page/1');
+});
+
 application.get('*', (req, res) => {
-    console.log("path", req.path);
-    console.log("url", req.url);
-    const content = renderToString( 
-        <StaticRouter location={req.path} context={{}}>
-            <div>{renderRoutes(Routes)}</div>
-        </StaticRouter>
-    );
+    const store = createStore(reducers, {}, applyMiddleware(thunk));
 
-    console.log("content", content);
-    const html = `
-        <html lang="en">
-            <head>
-                <base href="/">
-                <title>News</title>
-            </head>
-            <body>
-                <div id="root">${content}</div>
-                <script type="text/javascript" src="bundle.js"></script>
-            </body>
-        </html>
-    `;
-    console.log("html", html);
-
-    matchRoutes(Routes, req.path).map(({route}) => {
-        return route.loadData ? route.loadData : null;
+    const promises = matchRoutes(Routes, req.path).map(({route, match}) => {
+        return route.loadData ? route.loadData(store, match.params.pageId || 1) : null;
     });
-    
-    res.send(html);
+
+    Promise.all(promises).then(() => {
+        res.send(renderer(req, store));
+    });
 });
 
 const PORT = process.env.PORT || 3004;

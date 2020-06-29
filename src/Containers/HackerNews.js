@@ -1,50 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { getPageData } from "../Service/apiFactory";
-import { getDataFromLocalStorage } from "../Utility/utils";
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchData, hideElement, updateDataAtIndex } from '../actions';
 import { LineChart } from "../Components/LineChart";
 import { Table } from '../Components/Table';
 
-export const HackerNews =  (props) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoader] = useState(true);
+const _HackerNews =  (props) => {
     
     useEffect(() => {
-        loadData();
-        if(!props.match.params.pageId){
-            props.history.push(`/page/1`);
-        }
+        props.fetchData(props.match.params.pageId);
     }, [props.match.params.pageId]);
-    
-    const loadData = async () => {
-        const result = await getPageData(props.match.params.pageId);
-        const currentData = result.data.hits.map((currentObj) => {
-            const currentDataInStorage = getDataFromLocalStorage(currentObj.objectID);
-            const currentDataObj = {
-                points: currentObj.points,
-                title: currentObj.title,
-                author: currentObj.author,
-                objectID: currentObj.objectID,
-                url: currentObj.url,
-                num_comments: currentObj.num_comments,
-                voted: false
-            }
-            return currentDataInStorage ? {
-                ...currentDataObj,
-                ...currentDataInStorage
-            } : {
-                ...currentDataObj
-            }
-        });
-        setData(currentData);
-        setLoader(false);
-    };
-    
 
-    const updateElementAtParticularIndex = (index, currentIndexData) => {
-        let updatedData = JSON.parse(JSON.stringify(data));
-        updatedData[index] = {...updatedData[index], ...currentIndexData};
-        setData(updatedData);
-    }
+    //         const currentDataInStorage = getDataFromLocalStorage(currentObj.objectID);
+    //         return currentDataInStorage ? {
+    //             ...currentDataObj,
+    //             ...currentDataInStorage
+    //         } : {
+    //             ...currentDataObj
+    //         }
 
     const changePage = (operation) => {
         if(operation === "inc"){
@@ -61,17 +33,10 @@ export const HackerNews =  (props) => {
         return [["Id", "Votes"], ...finalData];
     };
 
-    const hideElement = (index) => {
-        let updatedData = JSON.parse(JSON.stringify(data));
-        updatedData.splice(index, 1);
-        setData(updatedData);
-    }
-
     return (
         <div className="container">
-        { !loading ? 
             <>
-                <Table headers={["Comments", "Vote Count", "Up Vote", "News Details"]} updateElementAtIndex={updateElementAtParticularIndex} hideElement={hideElement} data={data}/>
+                <Table headers={["Comments", "Vote Count", "Up Vote", "News Details"]} updateElementAtIndex={props.updateDataAtIndex} hideElement={props.hideElement} data={props.news}/>
                 <div className="page-controls background-primary">
                     <div className="app-primary-color">
                         <button className="btn-transparent app-primary-color cursor-pointer" onClick={() => {changePage("dec")}}>Previous</button>
@@ -79,10 +44,20 @@ export const HackerNews =  (props) => {
                         <button className="btn-transparent app-primary-color cursor-pointer" onClick={() => {changePage("inc")}}>Next</button>
                     </div>
                 </div>
-                <LineChart data={data.length > 0 ? prepareLineChartData(data) : []} xTitle={"Id"} yTitle={"Votes"}/>
-            </> : 
-                <div>Loading...</div>
-            }
+                <LineChart data={props.news.length > 0 ? prepareLineChartData(props.news) : []} xTitle={"Id"} yTitle={"Votes"}/>
+            </> 
         </div>
     )
 }
+
+export const loadData = (store, page) => {
+    return store.dispatch(fetchData(page));
+};
+
+const HackerNews = connect((state) => {
+    return {
+        news: state.news
+    }
+}, {fetchData, updateDataAtIndex, hideElement })(_HackerNews);
+
+export default HackerNews;

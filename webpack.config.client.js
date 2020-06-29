@@ -1,6 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
-
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	entry: "./src/index.js",
@@ -26,5 +26,12 @@ module.exports = {
 				use: ["style-loader", "css-loader"]
 			}
 		]
-	}
+	},
+	plugins: [
+		new CopyPlugin({
+		  patterns: [
+			{ from: 'src/app.css', to: 'assets' },
+		  ],
+		}),
+	  ],
 };
