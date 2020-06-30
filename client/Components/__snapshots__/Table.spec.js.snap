@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HackerNews /> renders without crashing and updates the state 1`] = `
+<table>
+  <thead>
+    <tr>
+      <th
+        className="text-medium"
+        key="header10"
+      >
+        header1
+      </th>
+      <th
+        className="text-medium"
+        key="header21"
+      >
+        header2
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      key="1234"
+    >
+      <td
+        className="text-medium align-center"
+      >
+        123
+      </td>
+      <td
+        className="text-medium align-center"
+      >
+        123
+      </td>
+      <td
+        className="text-medium align-center"
+      >
+        <div
+          className="triangle-up-icon cursor-pointer"
+          onClick={[Function]}
+        />
+      </td>
+      <td
+        className="text-medium"
+      >
+        <a
+          className="news-anchor"
+          href="ab.com"
+        >
+          news data 1
+          <span
+            className="table-elements-non-highlighted"
+          >
+             by 
+          </span>
+          random
+        </a>
+        <button
+          className="text-medium float-right hide-button btn-transparent cursor-pointer table-elements-non-highlighted"
+          onClick={[Function]}
+        >
+          hide
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
