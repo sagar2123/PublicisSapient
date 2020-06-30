@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchData, hideElement, updateDataAtIndex } from '../actions';
+import { fetchData, updateDataAtIndex } from '../actions';
 import { LineChart } from "../Components/LineChart";
 import { Table } from '../Components/Table';
 
@@ -58,6 +58,6 @@ const HackerNews = connect((state) => {
     return {
         news: state.news
     }
-}, {fetchData, updateDataAtIndex, hideElement })(_HackerNews);
+}, {fetchData, updateDataAtIndex })(_HackerNews);
 
 export default HackerNews;

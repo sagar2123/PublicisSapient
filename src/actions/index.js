@@ -19,10 +19,3 @@ export const updateDataAtIndex = (index, currentIndexData) => (dispatch) => {
         currentIndexData
     });
 }
-
-export const hideElement = (index) => (dispatch) => {
-    dispatch({
-        type: HIDE_ELEMENT,
-        index
-    });
-}

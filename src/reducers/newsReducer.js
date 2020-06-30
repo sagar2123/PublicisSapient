@@ -6,7 +6,10 @@ export default (state = [], action) => {
         case FETCH_DATA:
             const payload = [...action.payload.data.hits];
             const currentData = payload.map((currentObj) => {
-                // const currentDataInStorage = getDataFromLocalStorage(currentObj.objectID);
+                let currentDataInStorage = {}
+                if(typeof window !== "undefined"){
+                    currentDataInStorage = getDataFromLocalStorage(currentObj.objectID);
+                }
                 const dataObj = {
                     points: currentObj.points,
                     title: currentObj.title,
@@ -14,25 +17,20 @@ export default (state = [], action) => {
                     objectID: currentObj.objectID,
                     url: currentObj.url,
                     num_comments: currentObj.num_comments,
-                    voted: false
+                    hide: false
                 }
-                // return currentDataInStorage ? {
-                //     ...dataObj,
-                //     ...currentDataInStorage
-                // } : {
-                //         ...dataObj
-                //     }
-                return dataObj;
+                return currentDataInStorage ? {
+                    ...dataObj,
+                    ...currentDataInStorage
+                } : {
+                        ...dataObj
+                    }
             });
             return currentData;
         case UPDATE_DATA_AT_INDEX:
             let currentState = [...state];
             currentState[action.index] = { ...currentState[action.index], ...action.currentIndexData };
             return currentState;
-        case HIDE_ELEMENT:
-            let updatedState = [...state];
-            updatedState.splice(action.index, 1);
-            return updatedState;
         default:
             return state;
     }
