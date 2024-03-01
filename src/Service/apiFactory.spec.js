@@ -34,7 +34,7 @@ describe("getPageData", () => {
 
   it("fetches data with an error from an API", async () => {
     // Mock error to be thrown by axios.get
-    const errorMessage = "Network Error";
+    const errorMessage = "Netwofrk Error";
     axios.get.mockRejectedValue(new Error(errorMessage));
 
     // Expect the function to throw an error when called
