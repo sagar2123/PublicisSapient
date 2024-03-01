@@ -29,7 +29,7 @@ describe("getPageData", () => {
     );
 
     // Expect the result to match the mockData
-    expect(result).toEqual(true);
+    expect(result).toEqual(mockData);
   });
 
   it("fetches data with an error from an API", async () => {
