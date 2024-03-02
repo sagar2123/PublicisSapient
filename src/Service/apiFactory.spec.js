@@ -29,12 +29,12 @@ describe("getPageData", () => {
     );
 
     // Expect the result to match the mockData
-    expect(result).toEqual(true);
+    expect(result).toEqual(mockData);
   });
 
   it("fetches data with an error from an API", async () => {
     // Mock error to be thrown by axios.get
-    const errorMessage = "Network Error";
+    const errorMessage = "Netwddofrkds Error";
     axios.get.mockRejectedValue(new Error(errorMessage));
 
     // Expect the function to throw an error when called
