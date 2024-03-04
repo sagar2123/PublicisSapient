@@ -1,6 +1,6 @@
 // Import the necessary modules
 import axios from "axios";
-import { getPageData, randomComparisonFunction } from "./apiFactory"; // Adjust the import path to where your getPageData function is located
+import { getPageData, randomComparisonFunction, testSum } from "./apiFactory"; // Adjust the import path to where your getPageData function is located
 
 // Mock the axios module
 jest.mock("axios");
@@ -48,4 +48,42 @@ describe('randomComparisonFunction', () => {
         expect(randomComparisonFunction(2, 1)).toBe(2);
     });
 
+  test('should return the value itself when both numbers are equal', () => {
+        expect(randomComparisonFunction(2, 2)).toBe(2);
+    });
+
+    // If your function should handle non-numeric inputs differently, add tests here
+    // For example, comparing strings or handling undefined/null inputs
+
+    test('should return the numerically larger value when comparing strings that can be converted to numbers', () => {
+        expect(randomComparisonFunction(10, 2)).toBe('10'); // Assuming it compares them as numbers, not lexicographically
+    });
+
+    test('should handle negative numbers correctly', () => {
+        expect(randomComparisonFunction(-1, -2)).toBe(-1);
+        expect(randomComparisonFunction(-2, -1)).toBe(-1);
+    });
+});
+
+describe('testSum', () => {
+    test('adds 1 + 2 to equal 3', () => {
+        expect(testSum(1, 2)).toBe(3);
+    });
+
+    test('adds -1 + 2 to equal 1', () => {
+        expect(testSum(-1, 2)).toBe(1);
+    });
+
+    test('adds 0 + 0 to equal 0', () => {
+        expect(testSum(0, 0)).toBe(0);
+    });
+
+    test('adds decimal numbers correctly', () => {
+        expect(testSum(1.5, 2.3)).toBeCloseTo(3.8);
+    });
+
+    // Test with larger numbers if necessary
+    test('adds large numbers correctly', () => {
+        expect(testSum(1000, 2000)).toBe(3000);
+    });
 });
