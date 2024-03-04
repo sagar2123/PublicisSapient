@@ -1,6 +1,6 @@
 // Import the necessary modules
 import axios from "axios";
-import { getPageData, randomComparisonFunction } from "./apiFactory"; // Adjust the import path to where your getPageData function is located
+import { getPageData, randomComparisonFunction, testSum } from "./apiFactory"; // Adjust the import path to where your getPageData function is located
 
 // Mock the axios module
 jest.mock("axios");
@@ -56,7 +56,7 @@ describe('randomComparisonFunction', () => {
     // For example, comparing strings or handling undefined/null inputs
 
     test('should return the numerically larger value when comparing strings that can be converted to numbers', () => {
-        expect(randomComparisonFunction('10', '2')).toBe('10'); // Assuming it compares them as numbers, not lexicographically
+        expect(randomComparisonFunction(10, 2)).toBe('10'); // Assuming it compares them as numbers, not lexicographically
     });
 
     test('should handle negative numbers correctly', () => {
