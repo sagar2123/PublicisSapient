@@ -1,6 +1,6 @@
 // Import the necessary modules
 import axios from "axios";
-import { getPageData } from "./apiFactory"; // Adjust the import path to where your getPageData function is located
+import { getPageData, randomComparisonFunction } from "./apiFactory"; // Adjust the import path to where your getPageData function is located
 
 // Mock the axios module
 jest.mock("axios");
@@ -40,4 +40,12 @@ describe("getPageData", () => {
     // Expect the function to throw an error when called
     await expect(getPageData(1)).rejects.toThrow(errorMessage);
   });
+});
+
+describe('randomComparisonFunction', () => {
+    test('should return the larger of two numbers', () => {
+        expect(randomComparisonFunction(1, 2)).toBe(2);
+        expect(randomComparisonFunction(2, 1)).toBe(2);
+    });
+
 });
